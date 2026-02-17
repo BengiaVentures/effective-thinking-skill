@@ -185,6 +185,10 @@ Inspired by *The 5 Elements of Effective Thinking* by Edward B. Burger and Micha
 
 Special thanks to [Daniel Schreiner](https://www.truthorfate.com/), creator of [Truth or Fate](https://www.kickstarter.com/projects/danielschreiner/truth-or-fate-a-magical-game-that-tells-your-future) — a psychology-driven card game drawing from over a hundred psychology books to help people connect more deeply and uncover unconscious beliefs. His passion for distilling deep thinking into accessible formats directly inspired this project.
 
+## Support
+
+Everything here is free and open source. If `/think` is useful to you, [donating on Patreon](https://patreon.com/Bengia) helps support continued development.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
