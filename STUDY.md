@@ -8,7 +8,7 @@
 
 ## Hypothesis
 
-The `/think` skill — a 5-phase structured thinking agent applying the 5 Elements of Effective Thinking — produces higher-quality analysis than unstructured Claude on three dimensions: novel insight, risk coverage, and decision impact. We also test whether it outperforms a "strong baseline" (unstructured Claude given explicit analytical guidance).
+The `/think` skill — a 5-phase structured thinking agent applying the 5 Elements of Effective Thinking — produces higher-quality analysis than unstructured Claude on three dimensions: novel insight, risk coverage, and decision impact. I also test whether it outperforms a "strong baseline" (unstructured Claude given explicit analytical guidance).
 
 ## Study Design
 
@@ -105,7 +105,7 @@ All analysis decisions are specified here before data collection begins.
 
 **Calibration agreement:** Compute Cohen's kappa between AI and human judges on the 10 calibration tests. Report per-dimension and overall.
 
-### What We Will NOT Do
+### What I Will NOT Do
 
 - No cherry-picking: all 30 tests are reported regardless of outcome
 - No post-hoc dimension weighting: all 4 dimensions are reported equally
