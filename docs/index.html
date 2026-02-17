@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blind Taste Test: Can Structured Thinking Make AI Reason Better?</title>
+  <meta name="description" content="We tested a structured thinking framework for AI on real engineering problems. The responses are anonymized. You judge which is better.">
+  <meta property="og:title" content="Blind Taste Test: Can Structured Thinking Make AI Reason Better?">
+  <meta property="og:description" content="We tested a structured thinking framework for AI on real engineering problems. Responses anonymized. You be the judge.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blind Taste Test: Can Structured Thinking Make AI Reason Better?">
+  <meta name="twitter:description" content="5 blind A/B comparisons. Same AI, same model. One used a thinking framework. Can you tell which?">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: { 50: '#fafafa', 100: '#f4f4f5', 200: '#e4e4e7', 300: '#d4d4d8', 400: '#a1a1aa', 500: '#71717a', 600: '#52525b', 700: '#3f3f46', 800: '#27272a', 900: '#18181b', 950: '#09090b' }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; }
+    .prose { color: #d4d4d8; font-size: 0.95rem; line-height: 1.75; }
+    .prose h3 { font-size: 1.2rem; font-weight: 700; color: #fafafa; margin: 1.5rem 0 0.5rem; }
+    .prose h4 { font-size: 1.05rem; font-weight: 600; color: #fafafa; margin: 1.25rem 0 0.4rem; }
+    .prose h5 { font-size: 0.95rem; font-weight: 600; color: #e4e4e7; margin: 1rem 0 0.35rem; }
+    .prose p { margin: 0.6rem 0; }
+    .prose ul, .prose ol { margin: 0.5rem 0; padding-left: 1.5rem; }
+    .prose ul { list-style-type: disc; }
+    .prose ol { list-style-type: decimal; }
+    .prose li { margin: 0.2rem 0; line-height: 1.65; }
+    .prose li > ul, .prose li > ol { margin: 0.2rem 0; }
+    .prose strong { font-weight: 600; color: #fafafa; }
+    .prose em { font-style: italic; color: #e4e4e7; }
+    .prose code { font-family: 'SF Mono', 'Fira Code', 'Fira Mono', monospace; background: rgba(255,255,255,0.07); padding: 0.15em 0.35em; border-radius: 4px; font-size: 0.88em; color: #e4e4e7; }
+    .prose table { width: 100%; border-collapse: collapse; margin: 0.75rem 0; font-size: 0.88rem; }
+    .prose th, .prose td { padding: 0.45rem 0.6rem; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
+    .prose th { font-weight: 600; background: rgba(255,255,255,0.04); color: #fafafa; }
+    .prose td { color: #d4d4d8; }
+    .prose blockquote { border-left: 3px solid rgba(255,255,255,0.15); padding-left: 1rem; margin: 0.75rem 0; color: #a1a1aa; }
+    .prose hr { border: none; border-top: 1px solid rgba(255,255,255,0.08); margin: 1.5rem 0; }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .anim-fade { animation: fadeUp 0.35s ease-out both; }
+    .anim-scale { animation: scaleIn 0.3s ease-out both; }
+    .anim-delay-1 { animation-delay: 0.08s; }
+    .anim-delay-2 { animation-delay: 0.16s; }
+    .anim-delay-3 { animation-delay: 0.24s; }
+
+    .option-btn { transition: all 0.15s ease; }
+    .option-btn:hover { background: rgba(255,255,255,0.06); }
+    .option-btn.selected { background: rgba(59,130,246,0.15); border-color: #3b82f6; color: #93c5fd; }
+
+    .tab-btn { transition: all 0.15s ease; }
+    .tab-btn.active { color: #fafafa; border-color: #3b82f6; }
+
+    .response-col { max-height: 70vh; overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.1) transparent; }
+    .response-col::-webkit-scrollbar { width: 6px; }
+    .response-col::-webkit-scrollbar-track { background: transparent; }
+    .response-col::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+
+    @media (max-width: 1023px) {
+      .response-col { max-height: none; overflow-y: visible; }
+    }
+
+    .reveal-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.8rem; font-weight: 600; }
+    .badge-think { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+    .badge-organic { background: rgba(59,130,246,0.15); color: #93c5fd; border: 1px solid rgba(59,130,246,0.3); }
+
+    .vote-pill { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; }
+    .pill-a { background: rgba(249,115,22,0.15); color: #fb923c; }
+    .pill-b { background: rgba(168,85,247,0.15); color: #c084fc; }
+    .pill-tie { background: rgba(255,255,255,0.08); color: #a1a1aa; }
+  </style>
+</head>
+<body class="bg-surface-950 text-surface-50 min-h-screen">
+
+<!-- ================================================ -->
+<!-- RESPONSE CONTENT (stored as raw text)            -->
+<!-- ================================================ -->
+
+<script type="text/markdown" id="p1a">
+#### Getting Your CI From 35 Minutes to 10 Minutes
+
+The most important thing to understand about this problem is that the solution sequence matters far more than the solution choice. Teams consistently make the mistake of reaching for architectural changes (splitting the repo, adopting Bazel) before exhausting operational improvements that are cheaper and often more effective.
+
+##### Start by understanding where the 35 minutes actually goes
+
+Before committing to any strategy, you need a profile of your pipeline, not a guess. Instrument the CI run and break it into: dependency installation, compilation/type-checking, linting, unit tests, integration tests, build/packaging, and deployment artifacts. In most TypeScript monorepos of this size, I would expect something like 5-7 minutes on install and setup, 8-12 minutes on type-checking and compilation, and 15-20 minutes on tests. But the actual distribution determines everything. If 20 of your 35 minutes are integration tests hitting a database, Bazel will not save you. If 12 minutes are `tsc` type-checking the entire project graph, caching will.
+
+##### The high-leverage, low-risk moves come first
+
+**Aggressive caching and parallelization** is almost always the right first move. Cache `node_modules` (or use pnpm with a content-addressable store), cache TypeScript build info for incremental compilation, cache test results for unchanged packages, and run independent service pipelines in parallel. If you are not already running your four services' test suites concurrently, this alone could cut wall-clock time by 50-60%.
+
+**Turborepo is the unsexy but correct next step** for a TypeScript monorepo. It gives you content-hash-based caching and task graph awareness with minimal configuration. You can adopt it in a day or two. It skips builds and tests for packages whose inputs haven't changed, which in a monorepo where most commits touch one or two services means most of the pipeline gets skipped. This is where many teams stop because it gets them under 10 minutes for the median commit.
+
+**Throwing hardware at it** is underrated. If your CI runners are on 2-core machines and you move to 8-core, `tsc`, `jest`, and `eslint` all scale meaningfully. The cost difference is often tens of dollars per month. Calculate the developer-hours saved and this is almost always worth doing immediately.
+
+##### Bazel is probably not the answer for you
+
+Bazel is extraordinarily powerful and almost certainly overkill for 200k lines of TypeScript with four services. The adoption cost is high: rewriting build config, learning Starlark, dealing with mediocre TypeScript Bazel support compared to Go/Java, and onboarding every developer. Turborepo gives you 80% of the benefit at 10% of the cost. Bazel makes sense at 1M+ lines, 10+ services, or polyglot repos. At your scale, it's a trap that will consume months.
+
+##### Splitting the repo solves an organizational problem, not a CI problem
+
+If your four services are owned by independent teams that rarely make cross-cutting changes, a split can make sense for autonomy. But it won't inherently make CI faster, and it introduces: cross-repo dependency management, shared library versioning, coordinating breaking changes, and losing atomic cross-service refactors. If your motivation is purely CI speed, caching and change detection will get you there without the organizational overhead.
+
+##### The traps to watch for
+
+The most common trap is optimizing the wrong thing. The second is over-engineering: adopting a build system requiring platform engineering investment your team can't sustain. The third is ignoring test quality -- many slow pipelines are slow because of flaky, redundant, or unnecessarily broad integration tests.
+
+**Recommended sequence:** Profile the pipeline, parallelize jobs, add Turborepo-style caching, upgrade runner hardware, then evaluate whether you still have a problem. You will likely be under 10 minutes after the first three steps.
+</script>
+
+<script type="text/markdown" id="p1b">
+#### CI Pipeline Optimization: Separating Signal from Noise
+
+##### What's Known vs. Assumed
+
+**Known:** Pipeline runs ~35 minutes for a monorepo with 4 services, shared library, ~200k lines TypeScript. Target is under 10 minutes. Four interventions on the table: repo splitting, Bazel, aggressive caching, hardware.
+
+**Assumptions worth surfacing:**
+- We're assuming the 35 minutes is wall-clock time of the longest path, not total compute. If the pipeline is already parallelized and the bottleneck is a single serial chain, the intervention menu changes entirely.
+- We're assuming all 4 services are built and tested on every PR. If true, the monorepo is paying the "blast radius = everything" tax. But we don't know if change detection is already in place.
+- We're assuming the pain is developer feedback loops, not deployment frequency. Those lead to different solutions.
+- We don't know the breakdown: how much is install, compilation, testing, linting, artifact building.
+
+**Key gap:** Without a stage-by-stage timing breakdown, any prioritization is guesswork. The single most valuable preparatory step is instrumenting the pipeline to produce a time-per-stage waterfall.
+
+##### Where Things Break
+
+**Bazel as a tarpit.** TypeScript rules (`rules_ts`, `rules_js`) remain far less mature than Java/C++ Bazel. Teams report 3-6 month migration timelines during which CI gets *worse* because you maintain two build systems. If the team lacks Bazel expertise, the failure mode is "six months in, half-migrated, CI is now 40 minutes and nobody understands the BUILD files."
+
+**Splitting the repo prematurely.** Irreversible in practice. The shared library becomes a versioned dependency, introducing diamond dependency conflicts, publish-before-test cycles, and per-repo pipelines plus cross-repo integration. The cheaper version of the same benefit is change detection within the monorepo (Turborepo, Nx, or even `git diff --name-only`). Splitting solves a social problem (team autonomy) but often worsens the technical problem.
+
+**Caching that silently goes stale.** If cache keys don't include transitive dependencies through the shared library, you ship builds where service A links against a stale version. The failure mode isn't "CI is slow" but "CI is fast and wrong" -- strictly worse. Especially dangerous because it produces intermittent bugs that are hard to reproduce locally.
+
+##### Reframing the Problem
+
+**"Under 10 minutes" may be the wrong target.** The real developer pain might be *time-to-signal*: how long until you know your change broke something. If lint and type-check pass in 3 minutes and the remaining 32 are integration tests that fail 2% of the time, the high-leverage move is running fast checks first and letting slow checks run asynchronously. You don't need the whole pipeline fast -- you need the *feedback that matters most often* fast.
+
+**These four interventions aren't competing alternatives.** They operate at different layers of cost, risk, and reversibility. Caching and hardware are infrastructure-level (fast, low-risk, reversible). Change detection is pipeline-architecture-level (medium effort). Bazel and repo splitting are structural (slow, high-risk, hard to reverse). The question isn't "which one" but "in what order."
+
+**Is 35 minutes worth a large engineering investment?** If developers context-switch during CI (most do), the real cost is lower than the math suggests. A $500/month investment in faster runners might close 40% of the gap with zero engineering time. Before committing to a multi-month Bazel migration, honestly assess: productivity problem or annoyance?
+
+**Cross-domain analogy:** This is database query optimization. You don't start by migrating to a new database engine (Bazel). You add an index (caching), rewrite the slow query (pipeline restructuring), then shard only if the first two were insufficient (repo split). Cheapest/most reversible first, most expensive/least reversible last.
+
+##### Recommendation
+
+1. **Instrument the pipeline** (this week). Add timing to every stage. You cannot prioritize what you haven't measured.
+2. **Split into fast-feedback and full-verification stages.** Lint, type-check, unit tests block merge (&lt;5 min). Integration tests run async and notify on failure.
+3. **Add change detection** (Turborepo or Nx). Skip building/testing services unaffected by a PR. Single highest-leverage change if the pipeline currently rebuilds everything.
+4. **Upgrade CI runners and maximize parallelism.** Pure money-for-time, fully reversible. Do in parallel with items 2-3.
+5. **Defer Bazel and repo splitting** until items 1-4 are done. The remaining bottleneck will be clearly defined, and the decision can be made with evidence rather than hope.
+
+**Confidence: Medium-high.** What would change: (a) if timing shows 80% is TypeScript compilation itself, caching helps less and Bazel's remote cache becomes compelling; (b) if the team already has Bazel expertise, migration cost drops and it moves earlier.
+
+**Next questions:**
+1. What does the actual stage-by-stage timing show?
+2. Is the shared library a compile-time dependency for all 4 services, or could it be decoupled?
+3. Are developers blocked and waiting, or context-switching? This determines how much investment is justified.
+</script>
+
+<script type="text/markdown" id="p2a">
+#### A Build vs. Buy Framework for a 15-Person Series B Team
+
+The reason this debate recurs is that both sides are right in the abstract. The "build" camp is correct that vendor lock-in is real. The "buy" camp is correct that engineering time is your scarcest resource. What you need is a shared rubric that forces the conversation into concrete terms rather than philosophical ones.
+
+##### The Core Question: Is This Your Business?
+
+Before anything else, ask whether the capability in question is a differentiator for your product. Authentication almost certainly is not. Search might be, depending on your product. Email delivery never is. If something is not a core differentiator, the default answer should be buy, and the burden of proof should fall on anyone arguing to build. This single filter resolves most debates immediately.
+
+##### A Scoring Rubric Worth Using
+
+For the cases that are not immediately obvious, evaluate across five dimensions. Score each 1-3 and let the totals guide the conversation.
+
+**1. Strategic differentiation (weight: high)** Does building this in-house create a meaningful competitive advantage? If your product is a developer platform and search quality is central to the experience, that scores a 3. If you need search for an internal admin panel, that is a 1. Be honest here. Teams consistently overestimate how much their implementation of a commodity feature matters to customers.
+
+**2. Engineering cost to build AND maintain (weight: high)** Estimate not just the initial build, but three years of maintenance, on-call, upgrades, security patches, and scaling work. A 15-person team that spends two engineers maintaining an auth system for six months has effectively reduced headcount by 13% on a capability that produces zero customer value. Convert this to dollars. It is almost always more expensive than the SaaS bill.
+
+**3. Vendor lock-in and switching cost (weight: medium)** Ask specifically: if we needed to switch vendors in 18 months, what would that cost? For auth, you are wrapping an SDK behind your own interface anyway. Switching from Auth0 to Clerk is a bounded project. For something deeply embedded like a database, lock-in matters more. Score based on actual switching cost, not theoretical discomfort.
+
+**4. Scaling economics (weight: low at your stage)** Yes, SendGrid gets expensive at 50 million emails per month. You are not sending 50 million emails per month. Model the cost at 3x your current scale and 10x your current scale. If the vendor cost becomes genuinely untenable at 10x, note it but do not let it drive the decision today. You can migrate later with more resources and more information.
+
+**5. Data sensitivity and compliance (weight: context-dependent)** If you are in healthcare or fintech, keeping certain data flows in-house may be a regulatory requirement or significantly simplify your compliance story. This can legitimately tip the balance toward building, but only for the specific components that touch regulated data.
+
+##### How to Apply This in Practice
+
+When the debate surfaces, require the proposer (whether build or buy) to fill out a one-page doc covering those five dimensions with actual numbers: estimated engineering weeks, annual vendor cost, switching cost estimate, and a clear statement of what differentiating value building in-house provides. Review it as a team. The numbers usually make the answer obvious.
+
+For your three specific examples:
+
+- **Authentication**: Buy. This is a solved problem, it is not your differentiator, and the security maintenance burden alone justifies the vendor cost. Wrap the SDK behind a thin abstraction layer to limit lock-in.
+- **Email delivery**: Buy. There is no scenario where a 15-person team should be managing SMTP infrastructure. The cost at scale argument does not apply until you are orders of magnitude larger.
+- **Search**: This one depends on your product. If search quality is something customers evaluate you on, consider building on Elasticsearch (managed, not self-hosted) so you control relevance tuning. If search is a secondary feature, use Algolia and move on.
+
+##### Making It Stick as a Team Norm
+
+Document the framework in your engineering handbook and reference it explicitly when the debate comes up. The goal is not to eliminate discussion but to channel it into structured evaluation instead of recurring philosophical arguments. Assign a decision owner for each case, give them a week to produce the one-pager, and then make the call and move on.
+
+The meta-principle for a Series B startup is this: your competitive advantage comes from shipping your product faster than competitors, not from owning every layer of your stack. Every hour spent rebuilding a commodity is an hour not spent on what makes your product worth buying.
+</script>
+
+<script type="text/markdown" id="p2b">
+#### The Real Variables in the Equation
+
+A 15-person engineering team at a Series B startup has finite engineering hours -- likely fewer than 30,000 productive hours per year across the entire team. Every hour spent building commodity infrastructure is an hour not spent on the product that convinced investors to fund the company. That is the only fact that matters at the foundation level.
+
+Strip away the rhetoric and the debate reduces to a single variable: **is the component in question a source of competitive differentiation?** Authentication, email delivery, and search are almost never differentiators for a Series B startup. They are table stakes. The "build" camp is not actually arguing about these specific services -- they are expressing an anxiety about control and future flexibility that deserves to be addressed, but not by writing an authentication system from scratch.
+
+The assumptions worth surfacing: the "cost at scale" argument presupposes that the company will reach a scale where vendor pricing becomes prohibitive. Most Series B startups will either fail, get acquired, or reach a scale where they can afford to migrate deliberately. Optimizing for a cost curve you may never reach is a form of premature optimization applied to business decisions.
+
+##### The Maintenance Iceberg Nobody Is Pricing In
+
+The "build" camp consistently underestimates total cost of ownership by 3-5x. A custom authentication system is not just the initial build. It is every CVE patch, every compliance audit, every edge case around password reset flows, MFA token rotation, session management across devices, and the on-call rotation when it breaks at 2 AM. It is the knowledge that concentrates in one or two engineers who become single points of failure. It is the onboarding tax for every new hire who has to learn your bespoke system instead of a well-documented third-party SDK.
+
+The underappreciated risk is not vendor lock-in. It is **internal lock-in** -- the gravitational pull of maintained systems that consume increasing engineering attention while delivering zero competitive advantage. Three custom infrastructure systems, each demanding 10-15% of one engineer's time, effectively remove half an engineer from product work permanently.
+
+Vendor lock-in is real but overstated. A well-architected integration wraps the third-party service behind an internal interface. Swapping SendGrid for Postmark behind a `MailService` abstraction is a week of work. Replacing a homegrown email delivery pipeline with queuing, retry logic, bounce handling, and deliverability monitoring is a quarter.
+
+#### Asking the Right Questions
+
+The team is asking "build or buy?" when they should be asking: **"What is the last responsible moment to make this irreversible?"** Most buy decisions are easily reversible. Most build decisions are not, because sunk cost psychology kicks in.
+
+A more productive question: "If we hired two more engineers tomorrow, would we assign them to building an auth system or to our core product?" If the answer is obviously the product, you have your answer about where existing engineers should spend their time.
+
+An outsider would ask: "Why does a 15-person team keep having this debate at all? Shouldn't you have a default stance?" And they would be right.
+
+#### From Recurring Debate to Default Stance
+
+This debate is a symptom of a missing engineering strategy document. The team relitigates the same philosophical argument because there is no shared principle to appeal to. The solution is not to win the argument once -- it is to establish a decision framework with clear criteria and make it part of your engineering culture.
+
+The framework should codify a **default-to-buy** posture with explicit criteria for exceptions. Build only when: (1) the component is a core differentiator, (2) no existing solution meets non-negotiable technical requirements after genuine evaluation, or (3) the integration cost of the third-party solution exceeds the build cost by a meaningful margin, including two years of projected maintenance.
+
+This pattern also connects to how high-performing infrastructure teams at companies like Stripe and Shopify operated at comparable stages -- they bought everything that was not payments or commerce, respectively, and built only what directly served their moat.
+
+#### The Blind Spot
+
+The dimension most likely underweighted here is morale and growth. Engineers who never build infrastructure may stagnate technically, and the "build" camp may partly be expressing a desire for challenging systems work. That is legitimate and should be addressed through architecture of the core product, not by building commodity services. The belief worth revisiting is that "build vs. buy" is a technical decision. It is a resource allocation decision dressed in technical language.
+
+**Confidence:** High for teams at this size and stage. Drops if the startup's core product is itself infrastructure or developer tools, where building these systems yields reusable expertise.
+
+**Worth investigating next:**
+1. Which current homegrown systems are already consuming disproportionate maintenance time?
+2. What is your actual projected scale in 18 months, and does any vendor's pricing become untenable?
+3. Have the engineers advocating for "build" been given sufficiently challenging problems in the core product?
+4. Does your architecture already use interface abstractions that would make future vendor swaps low-cost?
+</script>
+
+<script type="text/markdown" id="p3a">
+#### The Real Decision: API Architecture for a Small B2B SaaS Team
+
+**Known facts:** Team of 8, API-first B2B SaaS, frontend identifies over-fetching pain on mobile, backend raises four concerns.
+
+**Assumptions worth questioning:**
+- Binary REST-vs-GraphQL choice (hybrid approaches exist)
+- "Frontend loves GraphQL" means they've used it at scale
+- Over-fetching on mobile is the actual bottleneck (could be payload size, latency, rendering)
+- Backend concerns are equally weighted (N+1 is solvable; staffing concern is organizational)
+- B2B traffic patterns resemble consumer mobile (they usually don't)
+
+**Key gap:** Nobody mentioned external API consumers. If truly "API-first," are third parties consuming this?
+
+**Failure modes:**
+
+1. **The "GraphQL expert" bottleneck.** With 8 engineers, 1-2 deeply understand GraphQL. If one leaves, critical knowledge concentration risk.
+2. **The query complexity bomb.** B2B customers build integrations. Someone writes a deeply nested 6-entity join. You need depth limiting, complexity scoring, persisted queries.
+3. **The silent performance regression.** Adding a field to a GraphQL query silently changes backend execution. N+1 problems accumulate until the connection pool saturates.
+
+**What everyone avoids saying:** The team may be optimizing for build-phase DX at the expense of run-phase operational simplicity. Build phase is months; run phase is years.
+
+**Reframing:**
+1. "What's the actual cost of over-fetching, and is GraphQL the cheapest fix?" Sparse fieldsets, BFF patterns, or REST with field selection parameters solve 80% at 20% of complexity.
+2. "Are we choosing a technology or an organizational structure?" GraphQL commits you to schema-first development, review processes, resolver ownership.
+3. "What will enterprise customers demand?" Versioned, cacheable, predictable APIs with OpenAPI specs.
+
+**Cross-domain context:** GraphQL was built at Facebook for thousands of frontend engineers across dozens of surfaces. "Tool built for hyperscale adopted by small teams" has a mixed track record (see: Kubernetes).
+
+**Recommendation:** REST + targeted GraphQL adoption.
+1. Core API as REST with OpenAPI specs, using JSON:API or sparse fieldsets for over-fetching.
+2. Introduce a GraphQL BFF layer for mobile, maintained by frontend-leaning engineers.
+3. Decision checkpoint at 6 months with real performance data.
+4. Invest in API design review regardless of protocol.
+
+**Confidence: Medium-high.** Changes if: product is primarily consumed on low-bandwidth mobile, or team already has deep GraphQL production experience.
+</script>
+
+<script type="text/markdown" id="p3b">
+#### The Short Answer First
+
+For 8 people building B2B SaaS, GraphQL's DX advantage probably does not justify the complexity -- but you're framing this as binary when you don't have to.
+
+##### The Over-Fetching Problem Is Real but Overstated for B2B
+
+B2B users are overwhelmingly on corporate WiFi, office desktops, or modern smartphones. Bandwidth savings from eliminating over-fetching are measured in kilobytes. More importantly, over-fetching is a *design* problem, not a *protocol* problem. Well-designed REST with field selection solves 90%.
+
+##### The Backend Concerns, Ranked by Severity
+
+1. **Schema maintenance staffing (the real killer).** Someone has to own the schema -- review changes, enforce conventions, plan deprecation. At Facebook, a full team. At your company, one person as a side responsibility. This is organizational, not technical.
+2. **Query complexity and N+1 (solvable but not free).** DataLoader, complexity limits, persisted queries -- each is infrastructure to understand, implement, monitor, maintain.
+3. **HTTP caching (depends).** For B2B SaaS where responses are user-specific and authenticated, HTTP caching was probably already limited.
+4. **Complexity attacks.** Matters if you expose API to customers for integrations.
+
+##### Hidden Cost: Hiring and Onboarding
+
+Every backend engineer you hire will know REST. Maybe half will have production GraphQL experience. In a tight hiring market, this is meaningful.
+
+##### Organizational Dynamics
+
+- Frontend's preference may reflect desire for autonomy from backend (getting data without filing endpoint tickets). Legitimate org problem with other solutions.
+- If backend team isn't bought in, you'll get technically correct but poorly optimized GraphQL. Reluctant adoption of complex infrastructure creates worst outcomes.
+- Consider letting frontend build a thin GraphQL gateway on top of REST as a compromise.
+
+##### Recommendation
+
+1. **Invest a week in API design.** Frontend describes every screen's data needs. Design endpoints accordingly. Use field selection and compound documents.
+2. **Adopt OpenAPI with code generation.** Gives frontend typed clients and good DX.
+3. **Pilot GraphQL for one bounded context after 3 months** if over-fetching remains painful.
+4. **Build a BFF if needed** for mobile's different data shapes.
+5. **Revisit at 20+ engineers** when headcount supports schema ownership.
+
+##### The Deeper Principle
+
+Technology at 8-person stage optimizes for speed of iteration and ease of hiring. REST wins on both. A well-designed REST API can have GraphQL added later; the reverse is harder.
+</script>
+
+<script type="text/markdown" id="p4a">
+#### The Case For Gradual Migration
+
+A 150k-line JS codebase with 12 devs and type bugs as #1 incident source: **yes, gradual migration is worth it, but done right.**
+
+##### The Real Cost of Type Bugs
+
+Not just bugs -- compounding costs: incident response (2-4 dev-hours each), trust erosion (defensive checks everywhere), opportunity cost (10-20% of team capacity). Quantify this before arguing strategy.
+
+##### Why "Only New Code" Is a Trap
+
+The boundary between old and new is porous. New TS imports old JS without type declarations, leading to leaked "any" types, a false sense of safety, and developers distrusting the type system. At 12 devs, nobody holds the full codebase in their head.
+
+##### Why "Annotate Everything First" Is Also Wrong
+
+Annotating code you're not changing: shallow types, massive merge conflicts, no user-visible value.
+
+##### The Strategy That Works: Strictness at Boundary, Conversion on Contact
+
+1. **Enable TypeScript today** with allowJs true, strict false. All existing JS works. One PR.
+2. **All new files in TypeScript.** Non-negotiable.
+3. **Convert files when you touch them.** Conversion amortized across feature work.
+4. **Write .d.ts for most-imported modules.** Top 10-15 by import frequency prevents "any" leakage.
+5. **Ratchet strictness over time.** Track TS percentage, never let it decrease.
+
+##### Addressing Velocity Concerns
+
+- Weeks 1-3: slower (learning, tooling friction)
+- Week 4-6: velocity recovers (autocomplete, catch-at-compile-time)
+- Month 3: exceeds baseline (fewer incidents, faster navigation)
+
+Skeptics are extrapolating from the first two weeks.
+
+##### The Social Engineering Problem
+
+6-6 split means forcing creates losers. Instead: pilot with volunteers on one high-incident module, track before/after incident rate. Pair across the divide. Make the escape hatch visible (revisit if no improvement after 3 months).
+
+##### What 12 Developers Actually Means
+
+No one understands the full codebase. Code review can't catch type errors. Type signatures are executable documentation of module contracts.
+</script>
+
+<script type="text/markdown" id="p4b">
+#### Understanding the Situation
+
+**Known:** 150k lines JS, 12 devs, type bugs #1 incident source, team split 50/50.
+
+**Assumptions to verify:**
+- "Type-related bugs" is well-defined (many bugs have type errors as symptom but design flaw as root cause -- TS catches symptom, not disease)
+- Team has distributed TS skill (might be 3 experienced, 9 not)
+- Codebase architecture supports incremental adoption (circular dependencies make it dramatically harder)
+- Baseline for "slow delivery" is stable (if already slowing due to incident load, comparing against declining baseline obscures cost)
+
+**Critical gap:** Nobody has quantified actual cost of type-related incidents in developer-hours per month.
+
+##### Where Approaches Break
+
+**"New code only" failure:** Porous boundary, "any" leakage, false safety. Misses exactly where type bugs cluster.
+
+**"Annotate everything" failure:** Shallow types, merge conflicts, no value during annotation.
+
+**Most common "gradual migration" failure:** Stalls at 40-60% coverage. Easy files converted, hard ones (highest complexity, most bugs) deferred. Two years later, codebase harder to work in than pure JS or pure TS.
+
+**False confidence risk:** New-to-TS developers over-trust the compiler. TS's type system is unsound by design (any types, type assertions, unvalidated external data). If treated as substitute for runtime validation at API boundaries, incident rates may not improve.
+
+**Social failure mode:** 50/50 split often reflects deeper organizational issues. Without defining what "worth it" means in measurable terms, both factions interpret outcomes through priors.
+
+##### Reframing
+
+**"What's the cheapest intervention that cuts type-related incidents by 50%?"** TypeScript isn't the only answer. JSDoc with @ts-check provides 70-80% of TS's benefit with zero build changes and zero new syntax. Runtime schema validation (Zod) catches type errors where they actually manifest -- in external data, user input, network calls. TS alone doesn't validate at runtime.
+
+**"Are we preventing bugs or making the codebase navigable?"** Different goals, different solutions.
+
+##### Downstream Effects
+
+- Hiring: TS is expected default now. TS codebase attracts stronger candidates.
+- Tooling: Modern tools produce TS-first output. Staying on JS means increasing ecosystem friction.
+- Third-order: Migration process is a stealth audit -- adding types forces articulating what modules accept and return, revealing latent bugs and dead code.
+
+##### Recommended Sequence
+
+1. **Weeks 1-2:** Measure baseline. Tag every incident as type-related or not. Get real numbers. Share with team.
+2. **Weeks 2-3:** Enable @ts-check and JSDoc types on 5 highest-incident modules. Zero build changes. Tests whether team can articulate types.
+3. **Weeks 3-4:** Add TS to build with allowJs true, strict false. New files in TypeScript.
+4. **Months 2-3:** Convert-on-touch. Write .d.ts for top 10-15 imports.
+5. **Months 2+ (parallel):** Runtime validation with Zod for API inputs, network calls, user input. Complementary to TS, not substitute.
+6. **Month 3:** Retrospective with data. If incidents down and velocity flat/improving, accelerate.
+7. **Month 4+:** Ratchet strict true, CI check TS percentage never decreases.
+
+**Confidence: High** on direction. **Medium** on specific sequence (depends on team skill distribution, circular dependencies, build pipeline compatibility).
+
+**What changes recommendation:** Severe circular dependency issues requiring architectural work first.
+
+**Critical open questions:**
+- Where do type incidents occur -- module boundaries or within modules?
+- How many of the 12 have shipped production TS?
+- Is the build pipeline already TS-compatible?
+- What would skeptics accept as evidence it's working?
+</script>
+
+<script type="text/markdown" id="p5a">
+#### The Core Problem: Fear-Driven Accumulation
+
+The real issue isn't technical -- it's cultural. Feature flags are treated as permanent infrastructure when designed to be temporary. The "what if we need to turn it off" argument sounds reasonable but is mostly irrational: a flag whose "off" state hasn't been tested in a year is Schrodinger's rollback.
+
+##### The Real Costs
+
+1. **Cognitive load**: Every engineer reading around stale flags, afraid to touch them
+2. **Testing impossibility**: 2^800 theoretical states. You're running on hope.
+3. **Incident response confusion**: "Did a flag change?" across 800 flags
+4. **Onboarding tax**: New engineers can't distinguish relics from active flags
+
+##### A Phased Approach
+
+**Phase 1: Instrument and classify (Week 1-2).**
+Track: last changed, percentage returning default value, creation date.
+Classify: Active rollout / Permanent configuration / Stale (90+ days same value) / Zombie (180+ days, team hasn't touched code path).
+
+**Phase 2: Automate the nudge (Week 3-4).**
+- Slack notification when flag becomes stale
+- Auto-generated cleanup PR that removes the flag and collapses code to live path
+- Per-team flag count dashboard
+
+Key: make the right thing easier than the wrong thing.
+
+**Phase 3: Enforce lifecycle at creation (Week 5-6).**
+New flags require: owner (team, not person), expected removal date, flag type (rollout / experiment / kill-switch / permission). Rollout flags get auto-expiration warnings.
+
+**Phase 4: Architecture improvements (Ongoing).**
+- Local evaluation with background sync
+- Flag dependency graph for parallel evaluation
+- Segment-based evaluation (checkout flag doesn't evaluate on home page)
+- Compile-time elimination for 100%-on flags
+
+**Phase 5: Governance without bureaucracy.**
+Per-team "flag budget" (e.g., 20 active rollout flags). Want #21? Clean up an old one. Kill-switches and config exempt.
+
+##### What Not to Do
+- Don't do big-bang cleanup (political firestorm)
+- Don't mandate cleanup without tooling
+- Don't eliminate flags entirely (the system is valuable)
+- Don't blame teams (it's a systems problem)
+
+##### Metrics That Matter
+- Flag half-life (target: &lt;30 days for rollout flags)
+- Stale flag percentage (target: &lt;20%)
+- P99 flag evaluation latency
+- Flag count per team
+- Cleanup PR merge rate
+</script>
+
+<script type="text/markdown" id="p5b">
+#### Grounding the Problem
+
+**Known:** 800+ flags, ~60% stale, latency on every request, unmanageable testing surface.
+
+**Assumed but not verified:**
+- Stale flags' "off" positions still function correctly
+- Latency is significant (could be 2ms or 200ms)
+- Flag evaluation is on the hot path (vs cached/deferred)
+- All flags are boolean (multi-variant multiplies combinatorial problem)
+- No existing ownership model or lifecycle metadata
+
+**Critical gaps:** How are flags evaluated? What's actual P99 contribution? Are flags entangled (A depends on B's state)? Has anyone tried turning off a stale flag?
+
+##### Failure Modes
+
+1. **Silent dependency chains.** "Stale" flag for Feature X is evaluated inside a code path later adopted by Feature Y. Remove it, collapse to "on" state, Feature Y breaks. This justifies people's fear -- it's real.
+
+2. **Cleanup chills adoption.** If cleanup initiative makes teams afraid to create flags, they'll do big-bang deployments instead. The cure is worse than the disease.
+
+3. **Stale flags as load-bearing walls.** Some "stale" flags are actually permanent configuration (e.g., "premium user" flag checked in 40 places). Not a feature flag -- an architectural constant.
+
+4. **Evaluation architecture masks the real problem.** If evaluation is remote and synchronous, latency is architecture, not flag count. Dropping from 800 to 200 might yield negligible improvement.
+
+##### Reframing
+
+1. **"Why does our system make it cheaper to leave a flag than remove it?"** Incentive design problem. Creating = one line + dashboard entry. Removing = touching every code path, updating tests, verifying dependencies, deploying. Cost asymmetry guarantees accumulation.
+
+2. **"What if the problem is too few flag types?"** Rollout and kill-switch have different lifecycles but are treated identically.
+
+3. **"What if we're solving the wrong latency problem?"** Profile first. 50 complex-targeting flags might cause more latency than 750 simple booleans. Pareto principle applies.
+
+##### Origins and Analogies
+
+Flags evolved from compile-time constants to runtime systems because deployment risk grew. The accumulation is inherent: flags are designed to be cheap to create because creation is on the critical path of deploying safely.
+
+**Cross-domain parallels:**
+- Database index accumulation (each adds write overhead, nobody removes because "what if")
+- IAM policy accumulation (solved with time-bounded access)
+- Building codes (determine if it's load-bearing before demolishing)
+
+##### Key Insight
+
+Some stale flags should be *promoted* -- formalized as permanent configuration with different evaluation paths, exempted from cleanup -- rather than simply removed. The binary "keep vs remove" hides a third option.
+
+##### Recommendations
+
+1. **Profile flag evaluation latency now.** If &lt;5ms, latency argument is a distraction; focus on cognitive load.
+2. **Instrument flag usage telemetry.** Last evaluation, last value change, percentage returning default. 100% same value for 90 days = inert.
+3. **Build automated cleanup PRs** for inert flags. Collapses code to live path.
+4. **Introduce flag types and lifecycle for new flags.** Rollout = 90-day expiration warning. Kill switches exempt.
+5. **Per-team flag dashboard.** Social visibility creates cleanup pressure.
+
+**Confidence: Medium-high.** What changes: if profiling reveals latency is driven by evaluation architecture (remote calls) not flag count, priority shifts to SDK migration.
+
+**Open questions:**
+- Are there flag entanglements (A depends on B)?
+- What's the team-level distribution? If 60% of stale flags belong to 3 teams, target them.
+- Has anyone modeled cost of a flag incident vs cost of accumulation?
+</script>
+
+<!-- ================================================ -->
+<!-- APP                                              -->
+<!-- ================================================ -->
+
+<div id="app" class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"></div>
+
+<script>
+// ============================================
+// DATA
+// ============================================
+const PAIRS = [
+  {
+    id: 1, slug: 'ci-pipeline', topic: 'CI Pipeline Optimization',
+    topicDescription: 'Our CI pipeline runs 35 minutes for a TypeScript monorepo with 4 services, a shared library, and ~200k lines. We want it under 10 minutes. Options on the table: splitting into separate repos, adopting Bazel, aggressive caching with Turborepo, or throwing hardware at it. What\'s the right approach?',
+    responses: {
+      A: { identity: 'organic', content: document.getElementById('p1a').textContent },
+      B: { identity: 'think', content: document.getElementById('p1b').textContent }
+    },
+    aiJudge: { insight: 'B', risk: 'B', decision: 'both', gap: 'marginal', winner: 'think' }
+  },
+  {
+    id: 2, slug: 'build-vs-buy', topic: 'Build vs Buy',
+    topicDescription: 'Our team keeps hitting the same debate: should we build our own solution or use a third-party service? Recent examples include authentication (roll our own vs Auth0/Clerk), email delivery (custom SMTP vs SendGrid), and search (Elasticsearch cluster vs Algolia). We\'re a 15-person engineering team at a Series B startup. How do you create a decision framework for build vs buy that the whole team can align on?',
+    responses: {
+      A: { identity: 'organic', content: document.getElementById('p2a').textContent },
+      B: { identity: 'think', content: document.getElementById('p2b').textContent }
+    },
+    aiJudge: { insight: 'B', risk: 'B', decision: 'A', gap: 'marginal', winner: 'think' }
+  },
+  {
+    id: 3, slug: 'rest-vs-graphql', topic: 'REST vs GraphQL',
+    topicDescription: 'We\'re building an API-first product and need to decide between REST and GraphQL. Our frontend team loves GraphQL for reducing over-fetching on mobile, but the backend team is concerned about query complexity, N+1 problems, lack of HTTP caching, and the need for a dedicated GraphQL team to maintain the schema. For a team of 8 engineers building a B2B SaaS product, does GraphQL\'s developer experience advantage justify the backend complexity?',
+    responses: {
+      A: { identity: 'think', content: document.getElementById('p3a').textContent },
+      B: { identity: 'organic', content: document.getElementById('p3b').textContent }
+    },
+    aiJudge: { insight: 'both', risk: 'A', decision: 'B', gap: 'marginal', winner: 'tie' }
+  },
+  {
+    id: 4, slug: 'typescript-migration', topic: 'TypeScript Migration',
+    topicDescription: 'Our 150k-line JavaScript codebase has grown to 12 developers and type-related bugs are our number-one source of production incidents. Half the team wants to migrate to TypeScript incrementally; the other half argues the upfront investment of annotating existing code is \'dumb work\' that won\'t deliver value for months and will slow feature delivery during the transition. Is a gradual TypeScript migration worth it for a team this size, or should we only use it for new code?',
+    responses: {
+      A: { identity: 'organic', content: document.getElementById('p4a').textContent },
+      B: { identity: 'think', content: document.getElementById('p4b').textContent }
+    },
+    aiJudge: { insight: 'B', risk: 'B', decision: 'B', gap: 'clear', winner: 'think' }
+  },
+  {
+    id: 5, slug: 'feature-flag-hygiene', topic: 'Feature Flag Hygiene',
+    topicDescription: 'We have 800+ feature flags in production, accumulated over three years. About 60% are stale. Flag evaluation adds latency to every request and the combinatorial testing surface is impossible to cover. How do you enforce feature flag hygiene without slowing down teams that depend on the system for safe rollouts?',
+    responses: {
+      A: { identity: 'organic', content: document.getElementById('p5a').textContent },
+      B: { identity: 'think', content: document.getElementById('p5b').textContent }
+    },
+    aiJudge: { insight: 'B', risk: 'B', decision: 'B', gap: 'clear', winner: 'think' }
+  }
+];
+
+const QUESTIONS = [
+  { key: 'insight', label: 'Novel Insight', question: 'Which response surfaced something you hadn\'t considered?', options: ['A', 'B', 'both', 'neither'] },
+  { key: 'risk', label: 'Risk Coverage', question: 'Which identified a risk you would have missed?', options: ['A', 'B', 'both', 'neither'] },
+  { key: 'decision', label: 'Decision Impact', question: 'Which would change what you actually do?', options: ['A', 'B', 'both', 'neither'] },
+  { key: 'gap', label: 'Gap Size', question: 'How large is the quality gap between them?', options: ['no-gap', 'marginal', 'clear', 'decisive'] }
+];
+
+const OPTION_LABELS = { 'A': 'Response A', 'B': 'Response B', 'both': 'Both', 'neither': 'Neither', 'no-gap': 'No gap', 'marginal': 'Marginal', 'clear': 'Clear', 'decisive': 'Decisive' };
+
+const FEEDBACK_TAGS = ['More actionable', 'Better risks', 'More concise', 'Better structured', 'Deeper analysis', 'More practical'];
+
+// ============================================
+// STATE
+// ============================================
+let state = { page: 'intro', currentPair: 0, demographics: {}, votes: {}, activeTab: {}, feedback: { pairs: {}, overall: '', submitted: false } };
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('blind-test-state');
+    if (saved) { const s = JSON.parse(saved); Object.assign(state, s); }
+  } catch(e) {}
+}
+
+function saveState() {
+  try { localStorage.setItem('blind-test-state', JSON.stringify(state)); } catch(e) {}
+}
+
+// ============================================
+// RENDER
+// ============================================
+const app = document.getElementById('app');
+
+function render() {
+  if (state.page === 'intro') renderIntro();
+  else if (state.page === 'judging') renderPair();
+  else if (state.page === 'results') renderResults();
+  saveState();
+}
+
+function renderIntro() {
+  app.innerHTML = `
+    <div class="max-w-2xl mx-auto anim-fade">
+      <div class="mb-8">
+        <p class="text-sm font-medium text-blue-400 mb-3 tracking-wide uppercase">Blind A/B Comparison</p>
+        <h1 class="text-3xl sm:text-4xl font-bold leading-tight mb-4">Can Structured Thinking Make AI Reason Better?</h1>
+        <p class="text-surface-400 text-lg leading-relaxed">We built a thinking framework and tested it blind. You be the judge.</p>
+      </div>
+
+      <div class="space-y-4 text-surface-300 leading-relaxed mb-8">
+        <p>We created a structured thinking skill (<strong class="text-surface-100">/think</strong>) for Claude Code that applies a 5-element analysis framework to engineering problems.</p>
+        <p>To test if it actually helps, we ran blind comparisons: <strong class="text-surface-100">same AI, same model, same topic</strong> &mdash; one response used the framework, one didn't.</p>
+        <p>The responses below are anonymized. Framework markers stripped. Sections retitled by content. <strong class="text-surface-100">You read both and judge which is better.</strong></p>
+      </div>
+
+      <div class="bg-surface-900/50 border border-surface-800 rounded-lg p-4 mb-8 text-sm text-surface-400">
+        <strong class="text-surface-300">Time estimate:</strong> Each pair takes ~3 minutes to read. 5 pairs total. ~15 minutes.
+      </div>
+
+      <div class="bg-surface-900/50 border border-surface-800 rounded-lg p-5 mb-8">
+        <p class="text-sm font-medium text-surface-300 mb-4">Optional: Tell us about yourself</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs text-surface-500 mb-1.5">Years of engineering experience</label>
+            <select id="demo-exp" class="w-full bg-surface-800 border border-surface-700 rounded-md px-3 py-2 text-sm text-surface-200 focus:outline-none focus:border-blue-500">
+              <option value="">Prefer not to say</option>
+              <option value="<2">Under 2</option>
+              <option value="2-5">2 - 5</option>
+              <option value="5-10">5 - 10</option>
+              <option value="10-20">10 - 20</option>
+              <option value="20+">20+</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-surface-500 mb-1.5">Primary role</label>
+            <select id="demo-role" class="w-full bg-surface-800 border border-surface-700 rounded-md px-3 py-2 text-sm text-surface-200 focus:outline-none focus:border-blue-500">
+              <option value="">Prefer not to say</option>
+              <option value="frontend">Frontend</option>
+              <option value="backend">Backend</option>
+              <option value="fullstack">Fullstack</option>
+              <option value="devops">DevOps / SRE</option>
+              <option value="staff">Staff+ / Management</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button onclick="startJudging()" class="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors text-sm">
+        Start Judging &rarr;
+      </button>
+
+      <p class="mt-6 text-xs text-surface-600">All responses generated by Claude Opus 4.6. No cherry-picking. <a href="https://github.com/bengiaventures/effective-thinking-skill" target="_blank" class="text-surface-500 hover:text-surface-400 underline">Source &amp; methodology</a></p>
+    </div>
+  `;
+  if (state.demographics.experience) document.getElementById('demo-exp').value = state.demographics.experience;
+  if (state.demographics.role) document.getElementById('demo-role').value = state.demographics.role;
+}
+
+function renderPair() {
+  const pair = PAIRS[state.currentPair];
+  const votes = state.votes[pair.id] || {};
+  const tab = state.activeTab[pair.id] || 'A';
+  const allAnswered = QUESTIONS.every(q => votes[q.key]);
+
+  const renderContent = (label) => {
+    const md = pair.responses[label].content;
+    return marked.parse(md);
+  };
+
+  app.innerHTML = `
+    <div class="anim-fade">
+      <!-- Progress -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          ${state.currentPair > 0 ? `<button onclick="prevPair()" class="text-sm text-surface-500 hover:text-surface-300 transition-colors">&larr; Previous</button>` : '<span></span>'}
+        </div>
+        <div class="flex items-center gap-2">
+          ${PAIRS.map((_, i) => `<div class="w-2 h-2 rounded-full ${i === state.currentPair ? 'bg-blue-500' : i < state.currentPair ? 'bg-blue-500/40' : 'bg-surface-700'}"></div>`).join('')}
+          <span class="text-xs text-surface-500 ml-2">Pair ${state.currentPair + 1} of ${PAIRS.length}</span>
+        </div>
+      </div>
+
+      <!-- Topic -->
+      <div class="bg-surface-900/60 border border-surface-800 rounded-lg p-4 sm:p-5 mb-6">
+        <p class="text-xs font-medium text-blue-400 mb-1.5 uppercase tracking-wide">${pair.topic}</p>
+        <p class="text-surface-300 text-sm leading-relaxed">${pair.topicDescription}</p>
+      </div>
+
+      <!-- Responses: Tabs on mobile, side-by-side on desktop -->
+      <div class="lg:hidden flex border-b border-surface-800 mb-4">
+        <button onclick="switchTab('${pair.id}', 'A')" class="tab-btn flex-1 py-2.5 text-sm font-medium text-center border-b-2 ${tab === 'A' ? 'active text-surface-100 border-blue-500' : 'text-surface-500 border-transparent hover:text-surface-300'}">Response A</button>
+        <button onclick="switchTab('${pair.id}', 'B')" class="tab-btn flex-1 py-2.5 text-sm font-medium text-center border-b-2 ${tab === 'B' ? 'active text-surface-100 border-blue-500' : 'text-surface-500 border-transparent hover:text-surface-300'}">Response B</button>
+      </div>
+
+      <div class="lg:grid lg:grid-cols-2 lg:gap-5 mb-8">
+        <div class="${tab !== 'A' ? 'hidden lg:block' : ''}">
+          <div class="hidden lg:block text-xs font-semibold text-orange-400 uppercase tracking-wider mb-2">Response A</div>
+          <div class="response-col bg-surface-900/40 border border-surface-800 rounded-lg p-4 sm:p-5">
+            <div class="prose">${renderContent('A')}</div>
+          </div>
+        </div>
+        <div class="${tab !== 'B' ? 'hidden lg:block' : ''}">
+          <div class="hidden lg:block text-xs font-semibold text-purple-400 uppercase tracking-wider mb-2">Response B</div>
+          <div class="response-col bg-surface-900/40 border border-surface-800 rounded-lg p-4 sm:p-5">
+            <div class="prose">${renderContent('B')}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div class="space-y-5 mb-8">
+        ${QUESTIONS.map(q => `
+          <div class="anim-fade">
+            <p class="text-sm font-medium text-surface-200 mb-2.5">${q.question}</p>
+            <div class="flex flex-wrap gap-2">
+              ${q.options.map(opt => `
+                <button onclick="selectAnswer(${pair.id}, '${q.key}', '${opt}')"
+                  class="option-btn px-4 py-2 text-sm rounded-md border ${votes[q.key] === opt ? 'selected border-blue-500/50' : 'border-surface-700 text-surface-400'}">
+                  ${OPTION_LABELS[opt]}
+                </button>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Next button -->
+      <div class="flex justify-end">
+        <button onclick="nextPair()" ${!allAnswered ? 'disabled' : ''}
+          class="px-6 py-2.5 text-sm font-medium rounded-lg transition-colors ${allAnswered ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-surface-800 text-surface-600 cursor-not-allowed'}">
+          ${state.currentPair < PAIRS.length - 1 ? 'Next Pair &rarr;' : 'See Results &rarr;'}
+        </button>
+      </div>
+    </div>
+  `;
+}
+
+function renderResults() {
+  let thinkWins = 0, organicWins = 0, ties = 0;
+
+  const pairResults = PAIRS.map(pair => {
+    const votes = state.votes[pair.id] || {};
+    let pairThink = 0, pairOrganic = 0;
+
+    ['insight', 'risk', 'decision'].forEach(key => {
+      const v = votes[key];
+      if (v === 'A') { if (pair.responses.A.identity === 'think') pairThink++; else pairOrganic++; }
+      else if (v === 'B') { if (pair.responses.B.identity === 'think') pairThink++; else pairOrganic++; }
+    });
+
+    let winner = 'tie';
+    if (pairThink > pairOrganic) { winner = 'think'; thinkWins++; }
+    else if (pairOrganic > pairThink) { winner = 'organic'; organicWins++; }
+    else { ties++; }
+
+    return { pair, votes, winner, pairThink, pairOrganic };
+  });
+
+  app.innerHTML = `
+    <div class="max-w-3xl mx-auto anim-fade">
+      <div class="mb-8">
+        <p class="text-sm font-medium text-blue-400 mb-2 tracking-wide uppercase">Results</p>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-3">The Reveal</h2>
+        <p class="text-surface-400">Here's how you voted &mdash; and which response used the /think framework.</p>
+      </div>
+
+      <!-- Summary -->
+      <div class="bg-surface-900/60 border border-surface-800 rounded-lg p-5 mb-8">
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-2xl font-bold text-green-400">${thinkWins}</div>
+            <div class="text-xs text-surface-500 mt-1">/think wins</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-blue-400">${organicWins}</div>
+            <div class="text-xs text-surface-500 mt-1">organic wins</div>
+          </div>
+          <div>
+            <div class="text-2xl font-bold text-surface-500">${ties}</div>
+            <div class="text-xs text-surface-500 mt-1">ties</div>
+          </div>
+        </div>
+        <div class="mt-4 pt-4 border-t border-surface-800 text-center text-sm text-surface-400">
+          AI judge scored: <strong class="text-surface-200">/think 3, organic 1, tie 1</strong>
+        </div>
+      </div>
+
+      <!-- Per-pair results -->
+      <div class="space-y-4 mb-10">
+        ${pairResults.map((r, idx) => {
+          const v = r.votes;
+          const identityA = r.pair.responses.A.identity;
+          const identityB = r.pair.responses.B.identity;
+          const labelA = identityA === 'think' ? '/think framework' : 'organic Claude';
+          const labelB = identityB === 'think' ? '/think framework' : 'organic Claude';
+          const badgeA = identityA === 'think' ? 'badge-think' : 'badge-organic';
+          const badgeB = identityB === 'think' ? 'badge-think' : 'badge-organic';
+
+          return `
+          <div class="bg-surface-900/40 border border-surface-800 rounded-lg p-5 anim-fade anim-delay-${Math.min(idx, 3)}">
+            <div class="flex items-start justify-between mb-3">
+              <div>
+                <p class="font-semibold text-surface-100">${r.pair.topic}</p>
+                <p class="text-xs text-surface-500 mt-0.5">Pair ${idx + 1}</p>
+              </div>
+              <div class="text-right">
+                ${r.winner === 'think' ? '<span class="reveal-badge badge-think">You picked /think</span>' :
+                  r.winner === 'organic' ? '<span class="reveal-badge badge-organic">You picked organic</span>' :
+                  '<span class="reveal-badge" style="background:rgba(255,255,255,0.05);color:#a1a1aa;border:1px solid rgba(255,255,255,0.1)">Tie</span>'}
+              </div>
+            </div>
+
+            <div class="flex flex-wrap gap-3 mb-3 text-sm">
+              <div><span class="text-orange-400 font-medium">Response A</span> = <span class="reveal-badge ${badgeA}">${labelA}</span></div>
+              <div><span class="text-purple-400 font-medium">Response B</span> = <span class="reveal-badge ${badgeB}">${labelB}</span></div>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+              ${['insight', 'risk', 'decision'].map(key => {
+                const val = v[key];
+                const label = val === 'A' ? 'A' : val === 'B' ? 'B' : val === 'both' ? 'Both' : 'Neither';
+                const cls = val === 'A' ? 'pill-a' : val === 'B' ? 'pill-b' : 'pill-tie';
+                const qLabel = QUESTIONS.find(q => q.key === key).label;
+                return `<div><span class="text-surface-500">${qLabel}:</span> <span class="vote-pill ${cls}">${label}</span></div>`;
+              }).join('')}
+              <div><span class="text-surface-500">Gap:</span> <span class="vote-pill pill-tie">${OPTION_LABELS[v.gap] || '?'}</span></div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-surface-800/50 text-xs text-surface-500">
+              AI judge: ${r.pair.aiJudge.winner === 'think' ? '<span class="text-green-400">/think won</span>' : r.pair.aiJudge.winner === 'organic' ? '<span class="text-blue-400">organic won</span>' : '<span class="text-surface-400">tie</span>'}
+              (gap: ${r.pair.aiJudge.gap})
+            </div>
+          </div>`;
+        }).join('')}
+      </div>
+
+      <!-- Feedback -->
+      <div class="bg-gradient-to-b from-surface-900/80 to-surface-900/40 border border-surface-800 rounded-lg p-5 mb-8">
+        ${state.feedback.submitted ? `
+          <div class="text-center py-4">
+            <p class="text-green-400 font-medium mb-1">Thanks for your feedback!</p>
+            <p class="text-sm text-surface-500">It will be reviewed and used to improve /think's reasoning patterns.</p>
+          </div>
+        ` : `
+          <h3 class="font-semibold text-surface-100 mb-1">Help Improve the Framework</h3>
+          <p class="text-sm text-surface-400 mb-5">Your feedback directly shapes how /think reasons. What made the difference?</p>
+
+          <div class="space-y-3 mb-5">
+            ${pairResults.map(r => {
+              const fb = (state.feedback.pairs && state.feedback.pairs[r.pair.id]) || { tags: [] };
+              return `
+              <div>
+                <p class="text-xs font-medium text-surface-400 mb-1.5">${r.pair.topic}</p>
+                <div class="flex flex-wrap gap-1.5">
+                  ${FEEDBACK_TAGS.map(tag => `
+                    <button onclick="toggleFeedbackTag(${r.pair.id}, '${tag}')"
+                      class="px-2.5 py-1 text-xs rounded-full border transition-all ${fb.tags.includes(tag) ? 'bg-blue-500/15 border-blue-500/40 text-blue-300' : 'border-surface-700 text-surface-500 hover:text-surface-300 hover:border-surface-600'}">
+                      ${tag}
+                    </button>
+                  `).join('')}
+                </div>
+              </div>`;
+            }).join('')}
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-sm text-surface-400 mb-1.5">What would improve AI reasoning for you? <span class="text-surface-600">(optional)</span></label>
+            <textarea id="feedback-overall" onblur="updateOverallFeedback(this.value)"
+              class="w-full bg-surface-800/80 border border-surface-700 rounded-md px-3 py-2 text-sm text-surface-200 placeholder-surface-600 focus:outline-none focus:border-blue-500/50 resize-none"
+              rows="2" maxlength="1000" placeholder="e.g. 'More concrete next steps', 'Less hedging', 'Show tradeoffs more clearly'">${state.feedback.overall || ''}</textarea>
+          </div>
+
+          <div class="flex flex-wrap gap-2.5">
+            <button onclick="submitToGithub()" class="px-4 py-2 text-sm font-medium bg-surface-800 border border-surface-700 rounded-lg text-surface-200 hover:bg-surface-700/50 hover:border-surface-600 transition-colors">
+              Submit via GitHub &rarr;
+            </button>
+            <button onclick="copyFeedback()" class="px-4 py-2 text-sm border border-surface-800 rounded-lg text-surface-500 hover:text-surface-300 hover:border-surface-700 transition-colors">
+              Copy as JSON
+            </button>
+          </div>
+          <p class="text-xs text-surface-600 mt-2.5">Opens a pre-filled GitHub issue for transparency. Your votes and tags are included.</p>
+        `}
+      </div>
+
+      <!-- What is /think -->
+      <div class="bg-surface-900/40 border border-surface-800 rounded-lg p-5 mb-8">
+        <h3 class="font-semibold text-surface-100 mb-2">What is /think?</h3>
+        <p class="text-sm text-surface-400 leading-relaxed mb-3">
+          /think is an open-source Claude Code skill that applies a structured 5-element analysis framework
+          (grounding, risk analysis, reframing, tracing implications, and self-critique) before synthesizing recommendations.
+          It's a recursive learning agent &mdash; it uses its own framework to evaluate and improve its own thinking over time.
+        </p>
+        <a href="https://github.com/bengiaventures/effective-thinking-skill" target="_blank"
+          class="inline-flex items-center text-sm text-blue-400 hover:text-blue-300 transition-colors">
+          View on GitHub &rarr;
+        </a>
+      </div>
+
+      <!-- Share -->
+      <div class="flex flex-wrap gap-3 mb-8">
+        <button onclick="copyLink()" class="px-4 py-2 text-sm border border-surface-700 rounded-lg text-surface-300 hover:text-surface-100 hover:border-surface-600 transition-colors">
+          Copy link
+        </button>
+        <button onclick="resetTest()" class="px-4 py-2 text-sm border border-surface-700 rounded-lg text-surface-300 hover:text-surface-100 hover:border-surface-600 transition-colors">
+          Start over
+        </button>
+      </div>
+
+      <p class="text-xs text-surface-600">Built with Claude Code. Part of a <a href="https://github.com/bengiaventures/effective-thinking-skill" target="_blank" class="underline hover:text-surface-500">pre-registered study</a> on whether structured prompting improves AI reasoning.</p>
+    </div>
+  `;
+}
+
+// ============================================
+// EVENT HANDLERS
+// ============================================
+function startJudging() {
+  const exp = document.getElementById('demo-exp');
+  const role = document.getElementById('demo-role');
+  if (exp) state.demographics.experience = exp.value;
+  if (role) state.demographics.role = role.value;
+  state.page = 'judging';
+  state.currentPair = 0;
+  render();
+  window.scrollTo(0, 0);
+}
+
+function selectAnswer(pairId, question, value) {
+  if (!state.votes[pairId]) state.votes[pairId] = {};
+  state.votes[pairId][question] = value;
+  render();
+}
+
+function switchTab(pairId, tab) {
+  state.activeTab[pairId] = tab;
+  render();
+}
+
+function nextPair() {
+  if (state.currentPair < PAIRS.length - 1) {
+    state.currentPair++;
+    render();
+    window.scrollTo(0, 0);
+  } else {
+    state.page = 'results';
+    render();
+    window.scrollTo(0, 0);
+  }
+}
+
+function prevPair() {
+  if (state.currentPair > 0) {
+    state.currentPair--;
+    render();
+    window.scrollTo(0, 0);
+  }
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const btn = event.target;
+    const original = btn.textContent;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = original, 2000);
+  });
+}
+
+function resetTest() {
+  if (confirm('This will clear all your votes. Continue?')) {
+    state = { page: 'intro', currentPair: 0, demographics: {}, votes: {}, activeTab: {} };
+    localStorage.removeItem('blind-test-state');
+    render();
+    window.scrollTo(0, 0);
+  }
+}
+
+// ============================================
+// FEEDBACK
+// ============================================
+function toggleFeedbackTag(pairId, tag) {
+  if (!state.feedback) state.feedback = { pairs: {}, overall: '', submitted: false };
+  if (!state.feedback.pairs[pairId]) state.feedback.pairs[pairId] = { tags: [] };
+  const tags = state.feedback.pairs[pairId].tags;
+  const idx = tags.indexOf(tag);
+  if (idx >= 0) tags.splice(idx, 1);
+  else if (tags.length < 3) tags.push(tag);
+  const ta = document.getElementById('feedback-overall');
+  if (ta) state.feedback.overall = ta.value;
+  render();
+}
+
+function updateOverallFeedback(value) {
+  if (!state.feedback) state.feedback = { pairs: {}, overall: '', submitted: false };
+  state.feedback.overall = value.slice(0, 1000);
+  saveState();
+}
+
+function sanitizeFeedback(text) {
+  return text.replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/```/g, '').trim();
+}
+
+function generateFeedbackBody() {
+  const demo = state.demographics;
+  let tw = 0, ow = 0, ti = 0;
+  const pairRows = PAIRS.map((pair, i) => {
+    const votes = state.votes[pair.id] || {};
+    let ts = 0, os = 0;
+    ['insight', 'risk', 'decision'].forEach(key => {
+      const v = votes[key];
+      if (v === 'A') { pair.responses.A.identity === 'think' ? ts++ : os++; }
+      else if (v === 'B') { pair.responses.B.identity === 'think' ? ts++ : os++; }
+    });
+    const winner = ts > os ? '/think' : ts < os ? 'organic' : 'tie';
+    if (ts > os) tw++; else if (os > ts) ow++; else ti++;
+    const gap = OPTION_LABELS[votes.gap] || '?';
+    const fb = (state.feedback.pairs && state.feedback.pairs[pair.id]) || { tags: [] };
+    const tags = fb.tags.length ? fb.tags.join(', ') : '-';
+    return `| ${i+1} | ${pair.topic} | ${winner} | ${gap} | ${tags} |`;
+  }).join('\n');
+
+  let body = `## Blind Test Feedback\n\n`;
+  body += `**Experience:** ${demo.experience || 'Not provided'} | **Role:** ${demo.role || 'Not provided'}\n\n`;
+  body += `### Results\n\n`;
+  body += `| # | Topic | Your Pick | Gap | Feedback Tags |\n`;
+  body += `|---|-------|-----------|-----|---------------|\n`;
+  body += pairRows + '\n\n';
+  body += `**Score:** /think ${tw} - ${ow} organic (${ti} ties)\n\n`;
+  if (state.feedback.overall) {
+    body += `### Overall Feedback\n\n> ${sanitizeFeedback(state.feedback.overall).replace(/\n/g, '\n> ')}\n\n`;
+  }
+  body += `---\n*Submitted via [Blind Taste Test](${window.location.origin + window.location.pathname}) on ${new Date().toISOString().split('T')[0]}*\n`;
+  return body;
+}
+
+function submitToGithub() {
+  const ta = document.getElementById('feedback-overall');
+  if (ta) state.feedback.overall = ta.value.slice(0, 1000);
+  const body = generateFeedbackBody();
+  const url = `https://github.com/bengiaventures/effective-thinking-skill/issues/new?labels=feedback&title=${encodeURIComponent('Blind Test Feedback')}&body=${encodeURIComponent(body)}`;
+  window.open(url, '_blank');
+  state.feedback.submitted = true;
+  render();
+}
+
+function copyFeedback() {
+  const ta = document.getElementById('feedback-overall');
+  if (ta) state.feedback.overall = ta.value;
+  const data = {
+    timestamp: new Date().toISOString(),
+    demographics: state.demographics,
+    votes: state.votes,
+    feedback: { pairs: state.feedback.pairs, overall: state.feedback.overall },
+    version: 1
+  };
+  const json = JSON.stringify(data, null, 2);
+  const btn = event.target;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(json).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy as JSON', 2000);
+    }).catch(() => fallbackCopy(json, btn));
+  } else {
+    fallbackCopy(json, btn);
+  }
+}
+
+function fallbackCopy(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  try { document.execCommand('copy'); btn.textContent = 'Copied!'; }
+  catch(e) { btn.textContent = 'Copy failed'; }
+  document.body.removeChild(ta);
+  setTimeout(() => btn.textContent = 'Copy as JSON', 2000);
+}
+
+// ============================================
+// INIT
+// ============================================
+marked.setOptions({ gfm: true, breaks: false });
+loadState();
+render();
+</script>
+
+</body>
+</html>

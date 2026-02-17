@@ -1,0 +1,4 @@
+# Thinking agent working directories (session logs, patterns, memory, test results)
+# These are project-specific data, not part of the skill itself
+.think/
+.think-test/
