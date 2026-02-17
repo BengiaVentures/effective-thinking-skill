@@ -193,6 +193,8 @@ Special thanks to [Daniel Schreiner](https://www.truthorfate.com/), creator of [
 
 Everything here is free and open source. If `/think` is useful to you, [donating on Patreon](https://patreon.com/Bengia) helps support continued development.
 
+Built by Ben — [bengia.ventures](https://bengia.ventures) / [@BengiaVentures](https://x.com/BengiaVentures)
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
