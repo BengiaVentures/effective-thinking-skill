@@ -118,11 +118,6 @@ For vague or ambiguous topics, `/think` probes before solving — which is often
 /think-test review   # see aggregate results
 ```
 
-**`/think-feedback`** — Process crowd feedback from blind tests to improve `/think` reasoning:
-```
-/think-feedback      # aggregate feedback from GitHub issues labeled 'feedback'
-```
-
 ## Installation
 
 ### Recommended: Git Submodule
