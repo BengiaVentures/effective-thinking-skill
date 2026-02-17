@@ -592,12 +592,17 @@ const FEEDBACK_TAGS = ['More actionable', 'Better risks', 'More concise', 'Bette
 // ============================================
 // STATE
 // ============================================
-let state = { page: 'intro', currentPair: 0, demographics: {}, votes: {}, activeTab: {}, feedback: { pairs: {}, overall: '', submitted: false } };
+const STATE_VERSION = 2; // Increment when content changes to reset old state
+let state = { version: STATE_VERSION, page: 'intro', currentPair: 0, demographics: {}, votes: {}, activeTab: {}, feedback: { pairs: {}, overall: '', submitted: false } };
 
 function loadState() {
   try {
     const saved = localStorage.getItem('blind-test-state');
-    if (saved) { const s = JSON.parse(saved); Object.assign(state, s); }
+    if (saved) {
+      const s = JSON.parse(saved);
+      if (s.version === STATE_VERSION) { Object.assign(state, s); }
+      else { localStorage.removeItem('blind-test-state'); }
+    }
   } catch(e) {}
 }
 
