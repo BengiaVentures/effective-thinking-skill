@@ -79,6 +79,8 @@ Claude will:
 
 Framework by Edward B. Burger and Michael Starbird from *The 5 Elements of Effective Thinking* (Princeton University Press, 2012). This skill operationalizes their framework for AI-assisted thinking.
 
+Special thanks to **[Daniel Schreiner](https://www.truthorfate.com/)** for recommending the book. Daniel is the creator of **[Truth or Fate](https://www.kickstarter.com/projects/danielschreiner/truth-or-fate-a-magical-game-that-tells-your-future)** — a psychology-driven card game that draws from over a hundred psychology books to help people connect more deeply and uncover unconscious beliefs. His passion for distilling deep thinking into accessible formats directly inspired this project.
+
 ## License
 
 Freely shareable. Better thinking benefits everyone.
