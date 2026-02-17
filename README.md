@@ -28,11 +28,11 @@ CHANGE — Which element am I neglecting? What must I revise?
 
 ## Does It Actually Work?
 
-We tested `/think` using blind A/B comparison with isolated agents. Here's what we did and what we found.
+I ran ~21 blind A/B comparisons to find out. [Judge for yourself](https://bengiaventures.github.io/effective-thinking-skill/) in the live blind test.
 
 ### Methodology
 
-Two independent agents run in parallel on the same topic — one organic Claude, one running `/think`. Neither can see the other's output. An orchestrator anonymizes both responses (strips framework headers, normalizes formatting) and presents them blind for evaluation on three dimensions:
+Two independent agents run in parallel on the same topic — one organic Claude, one running `/think`. Neither can see the other's output. An orchestrator anonymizes both responses (strips framework headers, retitles sections by content) and presents them blind for evaluation on three dimensions plus gap size:
 
 ```
                   Same Topic
@@ -46,49 +46,53 @@ Two independent agents run in parallel on the same topic — one organic Claude,
           └────────┬──────────┘
                    ▼
             Anonymize + Blind Judge
-            (3 questions, categorical)
+            (Novel Insight, Risk Coverage,
+             Decision Impact, Gap Size)
 ```
 
 The test skill (`/think-test`) is included in this repo — you can run it yourself.
 
-### Results
+### Results (~21 comparisons, AI-judged)
 
-**Initial test** — 3 topics on Sonnet, independent AI judges per topic:
+**Overall record: /think wins ~69%, organic wins ~12%, ties ~19%**
 
-| Dimension | /think Wins | Organic Wins | Ties |
-|-----------|:-----------:|:------------:|:----:|
-| Novel Insight | 3 | 0 | 0 |
-| Risk Coverage | 3 | 0 | 0 |
-| Decision Impact | 1 | 2 | 0 |
+| Dimension | /think Wins | Organic Wins | Ties | Signal Strength |
+|-----------|:-----------:|:------------:|:----:|:---:|
+| Risk Coverage | 17 | 2 | 2 | Strong |
+| Novel Insight | 9 | 1 | 11 | Moderate |
+| Decision Impact | 10 | 8 | 3 | Weak |
 
-`/think` consistently surfaced insights and risks that organic Claude missed. But organic produced more actionable recommendations — the framework's depth came at the cost of directness.
+**Key findings:**
 
-**Self-improvement** — We used `/think` to analyze its own test results. It identified the problem as communication architecture (thinking quality was fine; output structure wasn't reader-oriented) and recommended three fixes:
+- **Risk coverage is the killer feature.** /think surfaces failure modes, non-obvious risks, and edge cases that organic Claude consistently misses. This is the clearest signal in the data (17-2).
+- **Decision impact is nearly even.** Organic responses often win on actionability for practical problems where direct advice beats structured depth. /think wins when the problem itself needs reframing.
+- **Novel insight is mostly a wash.** Both approaches find similar core insights. Structured analysis surfaces *different* insights, not necessarily *more*.
+- **The gap is real but modest.** No decisive gaps in either direction. Most wins are marginal. /think's advantage is depth and rigor, not dramatic superiority.
+- **Works across spectrums.** Tested on organizational, business, product/strategy, financial, and cultural topics — not a niche advantage.
 
-1. Strengthen SYNTHESIZE with explicit, prioritized action items
-2. Add a redundancy guard so elements don't converge on the same point
-3. Test whether REFLECT should come before SYNTHESIZE
+**Self-improvement** — I used `/think` to analyze its own test results. It identified the problem as communication architecture (thinking quality was fine; output structure wasn't reader-oriented) and recommended three fixes. I implemented two; tested the third empirically — current order won. This is the recursive loop in action: the tool diagnosed and improved itself.
 
-We implemented fixes 1 and 2. Tested fix 3 empirically — current order won. This is the recursive loop in action: the tool diagnosed and improved itself.
+### Live Blind Test
 
-**Post-fix test** — 1 topic on Opus 4.6 (both agents and judge):
+I published a [live blind comparison](https://bengiaventures.github.io/effective-thinking-skill/) with 5 anonymized pairs spanning topics any professional would recognize:
 
-| Dimension | Winner |
-|-----------|--------|
-| Novel Insight | /think |
-| Risk Coverage | /think |
-| Decision Impact | /think |
+1. Scaling a team from 15 to 50 people
+2. Build vs buy decisions
+3. When to pivot your product
+4. Pricing a B2B SaaS product
+5. Remote, hybrid, or return to office
 
-The Opus judge noted organic had better "voice and readability" but `/think` operated at "a different level of analytical depth."
+AI judges scored /think winning all 5. I'm collecting human judgments to validate whether that holds.
 
 ### Honest Limitations
 
-- **Small sample**: 4 tests, not 400. Signal, not proof.
-- **AI judges**: Judges were Claude instances, not humans. May share biases with the agents.
-- **No long-term data**: The recursive learning claim (gets better over time) needs months of real-world use to validate.
+- **AI judges**: All ~21 comparisons were judged by Claude instances. AI judging AI introduces potential bias toward structured output. Human validation is the next step.
+- **Sample size**: ~21 comparisons is a pattern, not statistical proof.
+- **Anonymization is imperfect**: /think responses have stylistic tells (confidence assessments, "what would change this" sections) that may influence judges.
+- **No long-term data**: The recursive learning claim needs months of real-world use to validate.
 - **Token cost**: `/think` uses significantly more tokens than organic. Whether the depth justifies the cost is a judgment call.
 
-We include the testing tool so you can run your own tests and decide for yourself.
+The testing tool is included so you can run your own tests and decide for yourself.
 
 ## Usage
 
